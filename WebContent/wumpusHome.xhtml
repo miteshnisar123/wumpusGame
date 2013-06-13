@@ -1,0 +1,174 @@
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core" 
+    xmlns:p="http://primefaces.org/ui" 
+     >
+    
+
+<f:loadBundle basename="resources.application" var="bundle"/>
+
+<h:head>
+    <title><h:outputText value="Wumpus Game" /></title>
+    <link href="style/wumpus.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript">
+    function keyHandler(e) {
+    	if (!e) e = window.event;
+    	var browserName  = navigator.appName;
+    	//alert(browserName);
+    	if(browserName=='Netscape')
+    	{
+    	
+	    	if(e['keyCode'] == 65 || e['keyCode'] == 37) {
+	    		document.getElementById('wumpusform:clickedA').click();
+	    	}
+	    	if(e['keyCode'] == 87 || e['keyCode'] == 38) {
+	    		document.getElementById('wumpusform:clickedW').click();
+	    	}
+	    	if(e['keyCode'] == 83 || e['keyCode'] == 40) {
+	    		document.getElementById('wumpusform:clickedS').click();
+	    	}
+	    	if(e['keyCode'] == 68 || e['keyCode'] == 39) {
+	    		document.getElementById('wumpusform:clickedD').click();
+	    	}
+	    }
+    	else
+    		{if (event.keyCode == 97 || event.keyCode==37)
+{
+document.getElementById('wumpusform:clickedA').click();
+
+}
+if (event.keyCode == 119 || event.keyCode==38)
+{
+
+document.getElementById('wumpusform:clickedW').click();
+
+}
+if (event.keyCode == 115 || event.keyCode==40)
+{
+document.getElementById('wumpusform:clickedS').click();
+
+}
+if (event.keyCode == 100 || event.keyCode==39)
+{
+document.getElementById('wumpusform:clickedD').click();
+
+}}
+    	
+    	return false;
+    	} 
+
+window.onload = function() { document.getElementById('wumpusform:clickedA').focus(); } ;
+</script>
+</h:head>
+
+<h:body>
+	<h:form id="wumpusform" onkeyup="keyHandler(event);">
+
+
+		<p:panel id="wumpusPanel" header="Wumpus World" style="text-align:center;">
+
+		<p:commandButton value="Start New Game" onclick="dlg2.show();" update="wumpusPanel" action="#{wumpusWorld.startNewGame}" >
+			<p:focus context="wumpusform" />
+		</p:commandButton>
+
+
+
+<h:panelGrid style="text-align:center;">
+	<h:outputLabel value="TOTAL POINTS : #{wumpusWorld.totalPoints}" />
+</h:panelGrid>
+
+<h:panelGrid cellpadding="0" cellspacing="0" columns="2" border="2" styleClass="mainPanelGrid">
+
+	<h:panelGroup>
+		<h:panelGrid cellpadding="0" cellspacing="0" columns="1" >
+			
+			<h:panelGroup>
+				<h:panelGrid cellpadding="0" cellspacing="0" width="350" style="margin-left:15px;text-align:left;">
+					<p:dataTable value="#{wumpusWorld.displayMessage}" var="msg" style="height:350px;overflow:auto;">
+						<p:column >
+							<h:outputLabel value="#{msg}" styleClass="blinkytext"/>
+						</p:column>
+					</p:dataTable>
+				</h:panelGrid>
+			</h:panelGroup>
+			
+			<h:panelGroup>
+				<h:panelGrid cellpadding="0" cellspacing="0" columns="2" width="80%">
+					<h:panelGroup>
+						<h:outputLabel value="You can use A,S,D and W for LEFT,BOTTOM,RIGHT and TOP respectively or Using arrow keys " style="width:100px;"/>
+					</h:panelGroup>
+					<h:panelGroup>
+						<h:panelGrid cellpadding="0" cellspacing="0" columns="3" style="text-align:center;">
+					<h:panelGroup/>
+					<h:panelGroup>
+					<p:commandLink  id="clickedW" update="wumpusform" style="width:50px;height:50px;" action="#{wumpusWorld.clickedW}" >
+						<h:graphicImage url="images/up1.png" width="30" height="30" />
+						<p:focus context="wumpusform"/>
+					</p:commandLink>
+					</h:panelGroup>
+					<h:panelGroup/>
+					<h:panelGroup>
+					<p:commandLink id="clickedA" update="wumpusform"   style="width:50px;height:50px;"  action="#{wumpusWorld.clickedA}" >
+						<h:graphicImage url="images/left.png" width="30" height="30"/>
+						<p:focus context="wumpusform"/>
+					</p:commandLink>
+					</h:panelGroup>
+					<h:panelGroup>
+					<p:commandLink id="clickedS" update="wumpusform"  style="width:50px;height:50px;"  action="#{wumpusWorld.clickedS}" >
+						<h:graphicImage url="images/down11.png" width="30" height="30" />
+						<p:focus context="wumpusform"/>
+					</p:commandLink>
+					</h:panelGroup>
+					<h:panelGroup>
+					<p:commandLink id="clickedD" update="wumpusform"   style="width:50px;height:50px;"   action="#{wumpusWorld.clickedD}" >
+						<h:graphicImage url="images/right.png"  width="30" height="30"/>
+						<p:focus context="wumpusform"/>
+					</p:commandLink>
+					</h:panelGroup>
+				</h:panelGrid>
+					</h:panelGroup>
+				</h:panelGrid>
+				
+			</h:panelGroup>
+		</h:panelGrid>
+</h:panelGroup>
+<h:panelGroup >
+	<h:panelGrid cellpadding="0" cellspacing="0" >
+	<h:panelGroup>
+		<h:selectOneMenu id="levelChanged" value="#{wumpusWorld.levelValue}">
+			<f:selectItem itemLabel="Level 1" itemValue="4" />
+			<f:selectItem itemLabel="Level 2" itemValue="8"/>
+		</h:selectOneMenu>
+	</h:panelGroup>
+	<h:panelGroup>
+	<h:panelGrid cellpadding="0" cellspacing="0" styleClass="innerGameGrid" border="1"> 
+	<p:dataGrid var="ww" value="#{wumpusWorld.wwList}" columns="#{wumpusWorld.boardSize}"
+		rows="#{wumpusWorld.totalBoardSize}" paginator="false" >
+
+        <p:panel style="text-align:center" closable="true" styleClass="panelgrid">
+            <h:panelGrid cellpadding="0" cellspacing="0" columns="1" styleClass="panelgrid">
+               <h:panelGrid cellpadding="0" cellspacing="0" width="100%" style="height:100%;">
+				<h:graphicImage value="#{ww.playerImage}"  rendered="#{ww.showPlayer}" style="margin-top:12px;margin-bottom:12px;margin-left:10px;margin-right:10px;"/>
+				<h:graphicImage value="#{ww.playerImage}" rendered="#{!ww.showPlayer}"/>
+            	</h:panelGrid>
+            </h:panelGrid>
+        </p:panel>
+
+	</p:dataGrid>
+	</h:panelGrid>
+	</h:panelGroup>
+	</h:panelGrid>
+	
+	</h:panelGroup>
+</h:panelGrid>
+<p:dialog id="modalDialog" header="Modal Dialog" widgetVar="dlg2" modal="true" height="100">  
+    <h:outputText value="This is a Modal Dialog." />  
+</p:dialog> 
+</p:panel>
+</h:form>
+</h:body>
+</html>
+
+		
