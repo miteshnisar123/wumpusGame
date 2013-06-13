@@ -21,9 +21,10 @@ public class WumpusWorld
 	  private boolean gameOver;
 	  private int totalPoints;
 	  private String levelValue;
+	  private boolean showLevel;
+	  private String helpText="<ol><li> You can use arrow keys or A,W,S and D key to travel LEFT,TOP,DOWN and RIGHT respectively</li><li> You will come across PIT,WUMPUS and GOLD.</li><li> When a cell has PIT, then in neighbouring cell you will feel BREEZE.</li><li> When a cell has WUMPUS, then in neighbouring cell you will feel STENCH.</li><li>  When a cell has GOLD,then in neighbouring cell you will feel GLITTER.</li><li>  If you fall into PIT,-10 will be deducted.</li><li>  If you get GOLD, +100 will be added.</li><li>  If cell has nothing, then +1 will be added.</li><li>  If you come across WUMPUS, Game Over Boss!!!.</li><li>  Try to score maximum point.</li></ol>";
 	  
-	  
-	  private String text;
+
 	  
 	public WumpusWorld()
 	{
@@ -36,6 +37,7 @@ public class WumpusWorld
 		playerPosition=1;
 		totalPoints=0;
 		totalBoardSize=boardSize*boardSize;
+		showLevel=true;
 		for(int i=0;i<totalBoardSize;i++)
 		{
 			if(i==0)
@@ -61,6 +63,7 @@ public class WumpusWorld
 		playerPosition=1;
 		totalPoints=0;
 		totalBoardSize=boardSize*boardSize;
+		showLevel=true;
 		for(int i=0;i<totalBoardSize;i++)
 		{
 			if(i==0)
@@ -269,14 +272,16 @@ public class WumpusWorld
 	            		s="";
 	            	s=action+" : You are eaten by the wumpus. Game Over!!!!";
 	                gameOver=true;
+	                showLevel=false;
 	                a=1;
 	                
 	            }
 	            if(w.isGold()){
 	            	if(a==1)
 	            		s="";
-	            	s=action+" : You won.";
+	            	s=action+" : You found Gold. You won.";
 	                totalPoints=totalPoints+100;
+	                showLevel=false;
 	                gameOver=true;
 	                a=1;
 	            }
@@ -527,11 +532,18 @@ public class WumpusWorld
 	public void setLevelValue(String levelValue) {
 		this.levelValue = levelValue;
 	}
-	public String getText() {
-		return text;
+	
+	public boolean isShowLevel() {
+		return showLevel;
 	}
-	public void setText(String text) {
-		this.text = text;
+	public void setShowLevel(boolean showLevel) {
+		this.showLevel = showLevel;
+	}
+	public String getHelpText() {
+		return helpText;
+	}
+	public void setHelpText(String helpText) {
+		this.helpText = helpText;
 	}
 
 }
